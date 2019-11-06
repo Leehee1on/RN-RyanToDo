@@ -16,7 +16,7 @@ export default class App extends React.Component {
   }
   componentDidMount = () => {
     this._loadToDos();
-    setTimeout(()=>{this.setState({isLoading:false})},2000)
+    setTimeout(()=>{this.setState({isLoading:false})},500)
   }
   render(){
     // console.log(toDos)
@@ -58,7 +58,7 @@ export default class App extends React.Component {
       const toDos = await AsyncStorage.getItem("toDos")
       const parsedToDos = JSON.parse(toDos)
       // console.log(toDos)
-      this.setState({ loadedToDos: true,toDos:parsedToDos || {}})
+      this.setState({ loadedToDos: true,toDos:parsedToDos || {} })
     } catch (err) {
       console.log(err)
     }

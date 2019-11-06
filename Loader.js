@@ -5,7 +5,7 @@ export default Loader = () => {
 
   return(
     <View style={styles.container}>
-      <ImageBackground style={{width:'100%',height:'100%'}} source={require("./assets/RYAN005.png")} resizeMode="cover" >
+      <ImageBackground style={{width:'100%',height:'100%'}} source={require("./assets/splash.png")} resizeMode="cover" >
         <StatusBar barStyle="dark-content"/>
         <View style={styles.textContainer}>
           <Text style={styles.text}>RYAN To Do !</Text>
