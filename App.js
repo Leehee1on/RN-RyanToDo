@@ -8,7 +8,6 @@ import uuidv1 from 'uuid/v1'
 const { width,height} = Dimensions.get("window")
 
 export default class App extends React.Component {
-  
   state = {
     newToDo:"",
     loadedToDos:false,
@@ -20,7 +19,7 @@ export default class App extends React.Component {
     setTimeout(()=>{this.setState({isLoading:false})},2000)
   }
   render(){
-    console.log(toDos)
+    // console.log(toDos)
     const {newToDo,isLoading,loadedToDos,toDos} = this.state
     if(!loadedToDos){
       return <AppLoading /> 
@@ -28,8 +27,8 @@ export default class App extends React.Component {
     return (
       <>
         {
-          isLoading? 
-          <Loader/>  :
+          isLoading ? 
+          (<Loader/>)  :
           (
             <View style={styles.container}>
               <StatusBar barStyle="dark-content" />
@@ -38,7 +37,7 @@ export default class App extends React.Component {
                 <TextInput style={styles.input} placeholder={"New To Do"} value={newToDo} onChangeText={this._crontollNewToDo} placeholderTextColor={"#999"} returnKeyType={"done"}
                   autoCorrect={false} onSubmitEditing={this._addToDo}/>
                 <ScrollView contentContainerStyle={styles.toDos}>
-                  {Object.values(toDos).map(toDo => (
+                  {Object.values(toDos).reverse().map(toDo => (
                   <ToDo key={toDo.id} deleteToDo={this._deleteToDo} completeToDo={this._completeToDo} uncompleteToDo={this._uncompleteToDo} updateToDo={this._updateToDo} {...toDo}/>
                   ))}
                 </ScrollView>
@@ -54,10 +53,15 @@ export default class App extends React.Component {
       newToDo: text
     })
   }
-  _loadToDos = () => {
-    this.setState({
-      loadedToDos: true
-    })
+  _loadToDos = async () => {
+    try {
+      const toDos = await AsyncStorage.getItem("toDos")
+      const parsedToDos = JSON.parse(toDos)
+      // console.log(toDos)
+      this.setState({ loadedToDos: true,toDos:parsedToDos || {}})
+    } catch (err) {
+      console.log(err)
+    }
   }
   _addToDo = () => {
     const {newToDo} = this.state;
